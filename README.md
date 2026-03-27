@@ -1,59 +1,97 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Study App
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+資格試験学習の進捗管理と模試分析を行う Web アプリ。
+試験ごとの学習記録、模試結果、分析グラフを一元管理し、継続状況や学習傾向を可視化できる。
 
-## About Laravel
+Blade ベースのアプリケーションとして構築しつつ、分析 UI では Vue + Chart.js を部分導入している。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+ポートフォリオ作成と学習目的を兼ねて開発したアプリで、まずは Web デモ版を無料公開する前提で作成。
+iOS / Android 版の展開と、`Free / Pro` のサブスクリプション化を想定。
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## URL
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Web デモ: 準備中
 
-## Learning Laravel
+## 主な機能
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- ユーザー登録 / ログイン / ログアウト
+- 試験の作成 / 一覧 / 編集 / 削除
+- 学習記録の作成 / 一覧 / 編集 / 削除
+- 模試結果の作成 / 一覧 / 編集 / 削除
+- 偏差値の任意登録
+- 試験ごとの分析ダッシュボード
+- プロフィール設定
+    - 名前
+    - メールアドレス
+    - 週間学習目標日数
+    - 1日の目標学習時間
+    - パスワード変更
+    - 退会
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 分析機能
 
-## Laravel Sponsors
+- 月別学習時間
+- 直近 7 日の学習時間
+- 継続指標
+- 最新模試の科目別レーダーチャート
+- 模試推移
+- 科目別学習時間
+- 試験一覧での全試験合計サマリー
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 使用技術
 
-### Premium Partners
+- PHP 8.2+
+- Laravel 12
+- Laravel Breeze
+- Blade
+- Vue.js
+- Tailwind CSS
+- Chart.js
+- MySQL
+- Vite
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 画面イメージ
 
-## Contributing
+- ダッシュボード
+- 試験一覧
+- 試験詳細
+- 模試管理
+- 分析ダッシュボード
+- プロフィール設定
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+スクリーンショットは今後追加予定です。
 
-## Code of Conduct
+## ドキュメント
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+要件定義書・設計書は `docs` 配下で管理。
 
-## Security Vulnerabilities
+- [要件定義書](docs/01_requirements.md)
+- [機能一覧](docs/basic_design/01_function_list.md)
+- [画面設計](docs/basic_design/02_screen_design.md)
+- [DB設計](docs/basic_design/03_database_design.md)
+- [DB詳細設計](docs/basic_design/06_database_design.md)
+- [詳細設計](docs/detailed_design/08_internal_design.md)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## フロントアセット
 
-## License
+- 開発中は `npm run dev` で Vite 開発サーバーを起動
+- `npm run dev` を停止すると開発用アセットは反映されない
+- 停止後も見た目を維持したい場合は `npm run build` を実行して `public/build` を生成する
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 今後の方針
+
+- Web デモ版を無料公開
+- README / 画面イメージ / ドキュメントを整備してポートフォリオ化
+- iOS / Android 版へ展開
+
+## 工夫した点
+
+- Controller / Service / Model の責務分離
+- 試験単位での学習記録・模試管理の一貫した導線設計
+- Blade ベースを維持しつつ、分析 UI のみ Vue + Chart.js を部分導入
+- プロフィール設定と分析指標をつなげた目標管理
+
+## ライセンス
+
+本リポジトリはポートフォリオ用途で公開予定。
+必要に応じてライセンスは別途整理するが、現状は特に指定なし。

@@ -16,6 +16,11 @@
 /public/build
 /public/hot
 /public/storage
+/bootstrap/cache/*.php
+/storage/logs/*.log
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
 /storage/*.key
 /storage/pail
 /vendor

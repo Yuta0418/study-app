@@ -14,11 +14,14 @@ return new class extends Migration
         Schema::create('study_records', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('subject');
-            $table->integer('study_minutes');
+            $table->foreignId('exam_id')->constrained()->onDelete('cascade');
             $table->date('study_date');
+            $table->string('subject', 100);
+            $table->integer('study_minutes');
             $table->text('memo')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+            $table->index(['exam_id', 'study_date']);
         });
     }
 

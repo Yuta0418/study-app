@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'weekly_goal_days',
+        'daily_goal_minutes',
     ];
 
     /**
@@ -43,11 +45,18 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'weekly_goal_days' => 'integer',
+            'daily_goal_minutes' => 'integer',
         ];
     }
 
     public function studyRecords()
     {
         return $this->hasMany(StudyRecord::class);
+    }
+
+    public function exams()
+    {
+        return $this->hasMany(Exam::class);
     }
 }

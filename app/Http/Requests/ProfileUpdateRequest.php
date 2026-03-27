@@ -25,6 +25,8 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'weekly_goal_days' => ['nullable', 'integer', 'min:1', 'max:7'],
+            'daily_goal_minutes' => ['nullable', 'integer', 'min:1', 'max:1440'],
         ];
     }
 }
