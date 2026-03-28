@@ -9,8 +9,19 @@
     <div class="bg-white shadow-lg rounded-xl p-8">
 
         <!-- ステータス / エラー -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-        <x-input-error :messages="$errors->all()" class="mb-4" />
+        @if (session('status'))
+            <div class="mb-4 rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <ul class="mb-4 space-y-1 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">
+                @foreach ($errors->all() as $message)
+                    <li>{{ $message }}</li>
+                @endforeach
+            </ul>
+        @endif
 
         <!-- フォーム -->
         <form method="POST" action="{{ route('login') }}" class="space-y-5">
@@ -23,11 +34,6 @@
                 </label>
                 <input type="email" name="email"
                     value="{{ old('email') }}" required autofocus class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="example@email.com">
-                @error('email')
-                    <p class="text-red-500 text-sm mt-1">
-                        {{ $message }}
-                    </p>
-                @enderror
             </div>
 
             <!-- パスワード -->
@@ -36,11 +42,6 @@
                     パスワード
                 </label>
                 <input type="password" name="password" required class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="••••••••">
-                @error('password')
-                    <p class="text-red-500 text-sm mt-1">
-                        {{ $message }}
-                    </p>
-                @enderror
             </div>
 
             <!-- オプション -->

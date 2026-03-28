@@ -8,6 +8,9 @@
 
 <div class="py-8 pb-8">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
+        <a href="{{ route('exams.list') }}" class="inline-block text-gray-300 hover:underline">
+            ← 試験一覧に戻る
+        </a>
 
         <!-- Exam Header Card -->
         <div class="bg-white shadow rounded-xl p-6 mt-6">
@@ -299,25 +302,43 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     if (radarCanvas) {
         const radarCtx = radarCanvas.getContext('2d');
+        const radarLabels = @json($radarLabels ?? []);
+        const radarData = @json($radarData ?? []);
+        const latestMockChartType = radarLabels.length <= 2 ? 'bar' : 'radar';
 
         new Chart(radarCtx, {
-            type: 'radar',
+            type: latestMockChartType,
             data: {
-                labels: @json($radarLabels ?? []),
+                labels: radarLabels,
                 datasets: [{
                     label: 'スコア',
-                    data: @json($radarData ?? []),
+                    data: radarData,
+                    backgroundColor: latestMockChartType === 'bar' ? 'rgba(79, 70, 229, 0.75)' : 'rgba(79, 70, 229, 0.2)',
+                    borderColor: 'rgb(79, 70, 229)',
+                    borderWidth: 2,
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                scales: {
-                    r: {
-                        beginAtZero: true,
-                        suggestedMax: 100
+                plugins: {
+                    legend: {
+                        display: false,
                     }
-                }
+                },
+                scales: latestMockChartType === 'radar'
+                    ? {
+                        r: {
+                            beginAtZero: true,
+                            suggestedMax: 100
+                        }
+                    }
+                    : {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 100
+                        }
+                    }
             }
         });
     }

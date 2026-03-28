@@ -24,6 +24,7 @@ const weekly = computed(() => props.initialData.weekly ?? {});
 const radar = computed(() => props.initialData.radar ?? {});
 const mockTrend = computed(() => props.initialData.mockTrend ?? {});
 const subjectBreakdown = computed(() => props.initialData.subjectBreakdown ?? {});
+const latestMockChartType = computed(() => ((radar.value.labels ?? []).length <= 2 ? 'bar' : 'radar'));
 
 function createChart(canvasRef, config) {
     if (!canvasRef.value || !window.Chart) {
@@ -114,18 +115,37 @@ function renderCharts() {
 
     if ((radar.value.labels ?? []).length > 0) {
         createChart(radarChartRef, {
-            type: 'radar',
+            type: latestMockChartType.value,
             data: {
                 labels: radar.value.labels,
                 datasets: [{
                     label: 'スコア',
                     data: radar.value.data ?? [],
+                    backgroundColor: latestMockChartType.value === 'bar' ? 'rgba(79, 70, 229, 0.75)' : 'rgba(79, 70, 229, 0.2)',
+                    borderColor: 'rgb(79, 70, 229)',
+                    borderWidth: 2,
                 }],
             },
             options: {
-                scales: {
-                    r: { beginAtZero: true },
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
                 },
+                scales: latestMockChartType.value === 'radar'
+                    ? {
+                        r: {
+                            beginAtZero: true,
+                            suggestedMax: 100,
+                        },
+                    }
+                    : {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 100,
+                        },
+                    },
             },
         });
     }
@@ -283,7 +303,10 @@ onBeforeUnmount(() => {
                 <p v-if="!(radar.labels ?? []).length" class="text-gray-400 text-center py-10">
                     模試データがありません
                 </p>
-                <div v-else class="flex items-center justify-center" style="height: 240px;">
+                <p v-else-if="latestMockChartType === 'bar'" class="text-sm text-gray-500 mb-3">
+                    2科目以下のため、見やすい棒グラフで表示しています。
+                </p>
+                <div v-if="(radar.labels ?? []).length" class="flex items-center justify-center" style="height: 240px;">
                     <canvas ref="radarChartRef"></canvas>
                 </div>
             </div>
