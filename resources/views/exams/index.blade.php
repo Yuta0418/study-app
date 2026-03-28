@@ -19,7 +19,7 @@
         <div class="text-center mb-8">
             <div class="text-6xl mb-4">📚</div>
             <h2 class="text-2xl font-semibold mb-4">試験を選んで学習を進めましょう</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto">
+            <p class="text-gray-600 max-w-3xl mx-auto">
                 試験を作成したら、試験一覧から学習記録・進捗確認・模試の登録までまとめて管理できます。
             </p>
         </div>

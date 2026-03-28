@@ -51,7 +51,7 @@
                     </label>
                     <input type="number" name="target_score" value="{{ old('target_score') }}" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="例：85">
                     @error('target_score')
-                        <p class="text-red-500 text-sm mt-1">
+                        <p class="text-red-500 text-sm mt-1 whitespace-nowrap">
                             {{ $message }}
                         </p>
                     @enderror

@@ -9,7 +9,13 @@
     <div class="bg-white shadow-lg rounded-xl p-8">
 
         <!-- エラー -->
-        <x-input-error :messages="$errors->all()" class="mb-4" />
+        @if ($errors->any())
+            <ul class="mb-4 space-y-1 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">
+                @foreach ($errors->all() as $message)
+                    <li>{{ $message }}</li>
+                @endforeach
+            </ul>
+        @endif
 
         <!-- フォーム -->
         <form method="POST" action="{{ route('register') }}" class="space-y-5">
@@ -50,11 +56,6 @@
                 <p class="text-xs text-gray-400 mt-1">
                     8文字以上で入力してください
                 </p>
-                @error('password')
-                    <p class="text-red-500 text-sm mt-1">
-                        {{ $message }}
-                    </p>
-                @enderror
             </div>
 
             <!-- パスワード確認 -->

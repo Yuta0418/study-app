@@ -52,7 +52,7 @@
                     </label>
                     <input type="number" name="target_score" value="{{ old('target_score', $exam->target_score) }}" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     @error('target_score')
-                        <p class="text-red-500 text-sm mt-1">
+                        <p class="text-red-500 text-sm mt-1 whitespace-nowrap">
                             {{ $message }}
                         </p>
                     @enderror
@@ -60,7 +60,7 @@
             </div>
             <!-- ボタン -->
             <div class="flex justify-between items-center mt-8">
-                <a href="{{ route('exams.index') }}" class="text-gray-600 hover:underline">
+                <a href="{{ route('exams.list') }}" class="text-gray-600 hover:underline">
                     ← 戻る
                 </a>
                 <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
