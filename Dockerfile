@@ -40,6 +40,8 @@ RUN mkdir -p \
     /var/www/html/storage/logs \
     /var/www/html/bootstrap/cache
 
+RUN rm -f /var/www/html/public/hot
+
 RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' \
     /etc/apache2/sites-available/*.conf /etc/apache2/apache2.conf \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
