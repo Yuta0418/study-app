@@ -33,6 +33,13 @@ WORKDIR /var/www/html
 COPY --from=composer /app /var/www/html
 COPY --from=node /app/public/build /var/www/html/public/build
 
+RUN mkdir -p \
+    /var/www/html/storage/framework/cache \
+    /var/www/html/storage/framework/sessions \
+    /var/www/html/storage/framework/views \
+    /var/www/html/storage/logs \
+    /var/www/html/bootstrap/cache
+
 RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' \
     /etc/apache2/sites-available/*.conf /etc/apache2/apache2.conf \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
@@ -40,7 +47,8 @@ RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' \
 
 EXPOSE 10000
 
-CMD sed -i "s/80/${PORT}/g" /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf \
+CMD mkdir -p /var/www/html/storage/framework/cache /var/www/html/storage/framework/sessions /var/www/html/storage/framework/views /var/www/html/storage/logs /var/www/html/bootstrap/cache \
+    && sed -i "s/80/${PORT}/g" /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf \
     && php artisan migrate --force \
     && php artisan db:seed --force \
     && apache2-foreground
