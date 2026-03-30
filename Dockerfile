@@ -2,18 +2,15 @@ FROM composer:2 AS composer
 
 WORKDIR /app
 
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
-
 COPY . .
-RUN composer dump-autoload --optimize
+RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
 
 FROM node:22 AS node
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
 
 COPY . .
