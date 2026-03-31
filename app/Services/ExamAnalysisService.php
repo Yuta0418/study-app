@@ -51,13 +51,18 @@ class ExamAnalysisService
     public function monthly(Exam $exam)
     {
         $monthly = $exam->studyRecords()
-            ->select(
-                DB::raw('DATE_FORMAT(study_date, "%Y-%m") as month'),
-                DB::raw('SUM(study_minutes) as total_minutes')
-            )
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
+            ->get()
+            ->groupBy(function ($record) {
+                return Carbon::parse($record->study_date)->format('Y-m');
+            })
+            ->map(function ($records, $month) {
+                return [
+                    'month' => $month,
+                    'total_minutes' => $records->sum('study_minutes'),
+                ];
+            })
+            ->sortBy('month')
+            ->values();
 
         return [
             'labels' => $monthly->pluck('month'),

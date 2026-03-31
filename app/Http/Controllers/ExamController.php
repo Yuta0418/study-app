@@ -85,13 +85,19 @@ class ExamController extends Controller
         $chartData = $dailyData->pluck('total_minutes');
         // 月別グラフ
         $monthly = $exam->studyRecords()
-            ->select(
-                DB::raw('DATE_FORMAT(study_date, "%Y-%m") as month'),
-                DB::raw('SUM(study_minutes) as total_minutes')
-            )
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
+            ->whereDate('study_date', '>=', $start)
+            ->get()
+            ->groupBy(function ($record) {
+                return Carbon::parse($record->study_date)->format('Y-m');
+            })
+            ->map(function ($records, $month) {
+                return [
+                    'month' => $month,
+                    'total_minutes' => $records->sum('study_minutes'),
+                ];
+            })
+            ->sortBy('month')
+            ->values();
 
         $monthlyLabels = $monthly->pluck('month');
         $monthlyData = $monthly->pluck('total_minutes');
