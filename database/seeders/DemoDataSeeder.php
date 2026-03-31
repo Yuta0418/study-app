@@ -25,20 +25,6 @@ class DemoDataSeeder extends Seeder
             ]
         );
 
-        $examIds = Exam::where('user_id', $user->id)->pluck('id');
-
-        if ($examIds->isNotEmpty()) {
-            $mockExamIds = MockExam::whereIn('exam_id', $examIds)->pluck('id');
-
-            if ($mockExamIds->isNotEmpty()) {
-                DB::table('mock_subject_scores')->whereIn('mock_exam_id', $mockExamIds)->delete();
-            }
-
-            DB::table('mock_exams')->whereIn('exam_id', $examIds)->delete();
-            DB::table('study_records')->whereIn('exam_id', $examIds)->delete();
-            DB::table('exams')->whereIn('id', $examIds)->delete();
-        }
-
         $examDefinitions = [
             [
                 'name' => 'AWS Solutions Architect Associate',
@@ -61,13 +47,26 @@ class DemoDataSeeder extends Seeder
         ];
 
         foreach ($examDefinitions as $examIndex => $definition) {
-            $exam = Exam::create([
-                'user_id' => $user->id,
-                'name' => $definition['name'],
+            $exam = Exam::updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'name' => $definition['name'],
+                ],
+                [
                 'exam_date' => $definition['exam_date'],
                 'passing_score' => 280 + ($examIndex * 20),
                 'target_score' => 320 + ($examIndex * 20),
-            ]);
+                ]
+            );
+
+            $mockExamIds = MockExam::where('exam_id', $exam->id)->pluck('id');
+
+            if ($mockExamIds->isNotEmpty()) {
+                DB::table('mock_subject_scores')->whereIn('mock_exam_id', $mockExamIds)->delete();
+            }
+
+            DB::table('mock_exams')->where('exam_id', $exam->id)->delete();
+            DB::table('study_records')->where('exam_id', $exam->id)->delete();
 
             $this->seedStudyRecords($user->id, $exam, $definition['subjects'], $examIndex);
             $this->seedMockExams($exam, $definition['subjects'], $definition['mock_names'], $examIndex);
